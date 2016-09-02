@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .content-box{ border: 1px solid #000000;margin: 20px;}
+        .line{padding: 5px 10px;}
+    </style>
+</head>
+<body>
+
+    <div class="check-box">
+        <label for="input1"><input type="checkbox" checked id="input1"/>幼稚园</label>
+        <label for="input2"><input type="checkbox" id="input2"/>小学</label>
+        <label for="input3"><input type="checkbox" id="input3"/>初中</label>
+        <label for="input4"><input type="checkbox" id="input4"/>高中</label>
+    </div>
+    <div class="content-box" id="content">
+        <h3>内容展示区域：</h3>
+        <div class="line" data-school="input1">
+            <p>这里是<b>幼稚园</b>，总共有30个，其中男生有：16人，女生有：14人。</p>
+        </div>
+    </div>
+
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+
+        var data = [
+            {
+                'id' : 'input1',
+                'grade' : '幼稚园',
+                'number' : '30',
+                'boy' : 16,
+                'girl' : 14
+            },
+            {
+                'id' : 'input2',
+                'grade' : '小学',
+                'number' : '50',
+                'boy' : 20,
+                'girl' : 30
+            },
+            {
+                'id' : 'input3',
+                'grade' : '初中',
+                'number' : '60',
+                'boy' : 26,
+                'girl' : 34
+            },
+            {
+                'id' : 'input4',
+                'grade' : '高中',
+                'number' : '70',
+                'boy' : 32,
+                'girl' : 38
+            }
+        ];
+
+
+        function fnHtml(json){
+            return '<div class="line" data-school="'+ json.id +'"><p>这里是<b>'+ json.grade +'</b>，总共有'+ json.number +'个，其中男生有：'+ json.boy +'人，女生有：'+ json.girl +'人。</p></div>';
+        }
+
+
+
+        $('input').on('click', function () {
+
+            var oContent = $('#content');
+            var aLine = oContent.find('.line');
+            var objId = $(this).attr('id');
+            var index = $('input').index(this);
+
+            var isChecked = $(this).is(":checked");
+
+            if(isChecked){
+                var html = fnHtml({
+                    'id'    : data[index].id,
+                    'grade' : data[index].grade,
+                    'number' : data[index].number,
+                    'boy'   : data[index].boy,
+                    'girl'  : data[index].girl
+
+                });
+                oContent.append( html );
+            }else{
+                aLine.each(function(index,item){
+                    if( $(this).attr('data-school') == objId ){
+                        $(this).remove();
+                    }
+                })
+            }
+        })
+
+
+    </script>
+</body>
+</html>
